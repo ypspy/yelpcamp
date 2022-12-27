@@ -28,11 +28,13 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/login', passport.authenticate('local', {failureFlash: true, failureRedirect: '/login', keepSessionInfo:true}), (req, res) => {
+    // keep session info true 안하면 returnTo가 날라간다. Colt 코드에는 없는것.
     req.flash('success', 'welcome back!')
     console.log(req.session);
     const redirectUrl = req.session.returnTo || '/campgrounds';
     delete req.session.returnTo;
     res.redirect(redirectUrl);
+
 })
 
 router.get('/logout', (req, res) => {  // https://stackoverflow.com/questions/72336177/error-reqlogout-requires-a-callback-function
